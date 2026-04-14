@@ -54,7 +54,7 @@ button {
 function showStart() {
     document.getElementById("app").innerHTML = `
         <h1>💘 TF家族CP测试</h1>
-        <p>测测你最像哪对CP吧！</p>
+        <p>测测你最适合磕哪对CP！</p>
         <button onclick="startTest()">开始测试</button>
     `;
 }
@@ -114,11 +114,11 @@ function showResult() {
     let resultText = "";
     
     if (max === "A") {
-        resultText = "💗 你是：朱志鑫 × 余宇涵<br>默契又克制的甜";
+        resultText = "💗 推荐磕：朱志鑫 × 余宇涵<br>默契/年上/克制的甜";
     } else if (max === "B") {
-        resultText = "💛 你是：张峻豪 × 余宇涵<br>直球热烈少年感";
+        resultText = "💛 推荐磕：张峻豪 × 余宇涵<br>直球/竹马/少年感";
     } else if (max === "C") {
-        resultText = "💙 你是：张桂源 × 余宇涵<br>别扭又上头";
+        resultText = "💙 推荐磕：张桂源 × 余宇涵<br>别扭/年下/上头";
     } else {
         const randomCP = [
             "朱志鑫 × 苏新皓",
@@ -127,7 +127,7 @@ function showResult() {
             "余宇涵 × 苏新皓"
         ];
         let pick = randomCP[Math.floor(Math.random()*randomCP.length)];
-        resultText = "💚 你是随机CP：<br>" + pick;
+        resultText = "💚 推荐磕：<br>" + pick;
     }
 
     document.getElementById("app").innerHTML = `
