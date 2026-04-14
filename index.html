@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>TF家族CP测试</title>
+<style>
+    body {
+        font-family: "Helvetica", sans-serif;
+        background: linear-gradient(135deg, #ffd6e7, #d6f0ff);
+        text-align: center;
+        padding: 20px;
+    }
+    .container {
+        background: white;
+        border-radius: 15px;
+        padding: 20px;
+        max-width: 500px;
+        margin: auto;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+    h1 { color: #ff4d88; }
+    .question { font-size: 18px; margin: 20px 0; }
+    .option {
+        display: block;
+        background: #f5f5f5;
+        margin: 10px;
+        padding: 10px;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+    .option:hover {
+        background: #ffecf3;
+    }
+    button {
+        margin-top: 20px;
+        padding: 10px 20px;
+        border: none;
+        background: #ff4d88;
+        color: white;
+        border-radius: 20px;
+        cursor: pointer;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="container" id="quiz">
+    <h1>💘 TF家族CP测试</h1>
+    <div id="questionBox"></div>
+</div>
+
+<script>
+const questions = [
+    {q:"你更喜欢哪种相处模式？", a:["默契安静但很甜","打打闹闹但很黏","有点别扭但会在意","热闹搞笑型"]},
+    {q:"朋友眼中的你是？", a:["温柔可靠","活泼外向","有点傲娇","沙雕气氛组"]},
+    {q:"你理想中的搭档是？", a:["懂你不说的话","陪你一起疯","会斗嘴","一起整活"]},
+    {q:"吵架时你会？", a:["冷静沟通","闹一会再和好","嘴硬心软","笑着带过"]},
+    {q:"你更像哪种人？", a:["内敛深情","直球表达","别扭关心","欢乐制造机"]},
+    {q:"你喜欢的互动？", a:["眼神默契","肢体接触多","互怼","搞事情"]},
+    {q:"如果录综艺你会？", a:["安静配合","带节奏","吐槽","整活"]},
+    {q:"你更在意？", a:["心灵契合","情绪价值","独特关系","快乐氛围"]},
+    {q:"对偏爱的理解？", a:["不说但懂","明目张胆","嘴硬心软","一起快乐"]},
+    {q:"你最害怕？", a:["被误解","被忽视","被冷落","无聊"]}
+];
+
+let current = 0;
+let score = {A:0, B:0, C:0, D:0};
+
+function loadQuestion() {
+    if (current >= questions.length) {
+        showResult();
+        return;
+    }
+
+    let q = questions[current];
+    let html = `<div class="question">${current+1}. ${q.q}</div>`;
+
+    q.a.forEach((opt, i) => {
+        let key = ["A","B","C","D"][i];
+        html += `<div class="option" onclick="select('${key}')">${opt}</div>`;
+    });
+
+    document.getElementById("questionBox").innerHTML = html;
+}
+
+function select(key) {
+    if (key === "A") score.A += 2;
+    else score[key] += 1;
+
+    current++;
+    loadQuestion();
+}
+
+function showResult() {
+    let max = Object.keys(score).reduce((a,b)=> score[a]>score[b]?a:b);
+
+    let resultText = "";
+    
+    if (max === "A") {
+        resultText = "💗 你是：朱志鑫 × 余宇涵<br>关键词：默契 / 克制 / 暗戳戳的甜";
+    } else if (max === "B") {
+        resultText = "💛 你是：张峻豪 × 余宇涵<br>关键词：直球 / 热烈 / 少年感";
+    } else if (max === "C") {
+        resultText = "💙 你是：张桂源 × 余宇涵<br>关键词：别扭 / 拉扯 / 反差萌";
+    } else {
+        const randomCP = [
+            "朱志鑫 × 苏新皓",
+            "张极 × 左航",
+            "张泽禹 × 张极",
+            "余宇涵 × 苏新皓"
+        ];
+        let pick = randomCP[Math.floor(Math.random()*randomCP.length)];
+        resultText = "💚 你是随机CP：<br>" + pick;
+    }
+
+    document.getElementById("quiz").innerHTML = `
+        <h1>✨ 测试结果 ✨</h1>
+        <p style="font-size:20px;">${resultText}</p>
+        <button onclick="location.reload()">再测一次</button>
+    `;
+}
+
+loadQuestion();
+</script>
+
+</body>
+</html>
