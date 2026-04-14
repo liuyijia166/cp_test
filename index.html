@@ -4,54 +4,62 @@
 <meta charset="UTF-8">
 <title>TF家族CP测试</title>
 <style>
-    body {
-        font-family: "Helvetica", sans-serif;
-        background: linear-gradient(135deg, #ffd6e7, #d6f0ff);
-        text-align: center;
-        padding: 20px;
-    }
-    .container {
-        background: white;
-        border-radius: 15px;
-        padding: 20px;
-        max-width: 500px;
-        margin: auto;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-    }
-    h1 { color: #ff4d88; }
-    .question { font-size: 18px; margin: 20px 0; }
-    .option {
-        display: block;
-        background: #f5f5f5;
-        margin: 10px;
-        padding: 10px;
-        border-radius: 10px;
-        cursor: pointer;
-        transition: 0.3s;
-    }
-    .option:hover {
-        background: #ffecf3;
-    }
-    button {
-        margin-top: 20px;
-        padding: 10px 20px;
-        border: none;
-        background: #ff4d88;
-        color: white;
-        border-radius: 20px;
-        cursor: pointer;
-    }
+body {
+    font-family: "Helvetica", sans-serif;
+    background: linear-gradient(135deg, #ffd6e7, #d6f0ff);
+    text-align: center;
+    padding: 20px;
+}
+.container {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    max-width: 500px;
+    margin: auto;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+h1 { color: #ff4d88; }
+
+button {
+    padding: 12px 25px;
+    border: none;
+    background: #ff4d88;
+    color: white;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.option {
+    display: block;
+    background: #f5f5f5;
+    margin: 10px;
+    padding: 12px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+.option:hover { background: #ffe4ef; }
+
+.question { margin: 20px 0; font-size: 18px; }
 </style>
 </head>
 
 <body>
 
-<div class="container" id="quiz">
-    <h1>💘 TF家族CP测试</h1>
-    <div id="questionBox"></div>
-</div>
+<div class="container" id="app"></div>
 
 <script>
+
+// 封面页
+function showStart() {
+    document.getElementById("app").innerHTML = `
+        <h1>💘 TF家族CP测试</h1>
+        <p>测测你最像哪对CP吧！</p>
+        <button onclick="startTest()">开始测试</button>
+    `;
+}
+
+// 题目
 const questions = [
     {q:"你更喜欢哪种相处模式？", a:["默契安静但很甜","打打闹闹但很黏","有点别扭但会在意","热闹搞笑型"]},
     {q:"朋友眼中的你是？", a:["温柔可靠","活泼外向","有点傲娇","沙雕气氛组"]},
@@ -68,6 +76,12 @@ const questions = [
 let current = 0;
 let score = {A:0, B:0, C:0, D:0};
 
+function startTest() {
+    current = 0;
+    score = {A:0, B:0, C:0, D:0};
+    loadQuestion();
+}
+
 function loadQuestion() {
     if (current >= questions.length) {
         showResult();
@@ -75,14 +89,15 @@ function loadQuestion() {
     }
 
     let q = questions[current];
-    let html = `<div class="question">${current+1}. ${q.q}</div>`;
+    let html = `<h1>第 ${current+1} 题</h1>`;
+    html += `<div class="question">${q.q}</div>`;
 
     q.a.forEach((opt, i) => {
         let key = ["A","B","C","D"][i];
         html += `<div class="option" onclick="select('${key}')">${opt}</div>`;
     });
 
-    document.getElementById("questionBox").innerHTML = html;
+    document.getElementById("app").innerHTML = html;
 }
 
 function select(key) {
@@ -99,11 +114,11 @@ function showResult() {
     let resultText = "";
     
     if (max === "A") {
-        resultText = "💗 你是：朱志鑫 × 余宇涵<br>关键词：默契 / 克制 / 暗戳戳的甜";
+        resultText = "💗 你是：朱志鑫 × 余宇涵<br>默契又克制的甜";
     } else if (max === "B") {
-        resultText = "💛 你是：张峻豪 × 余宇涵<br>关键词：直球 / 热烈 / 少年感";
+        resultText = "💛 你是：张峻豪 × 余宇涵<br>直球热烈少年感";
     } else if (max === "C") {
-        resultText = "💙 你是：张桂源 × 余宇涵<br>关键词：别扭 / 拉扯 / 反差萌";
+        resultText = "💙 你是：张桂源 × 余宇涵<br>别扭又上头";
     } else {
         const randomCP = [
             "朱志鑫 × 苏新皓",
@@ -115,14 +130,16 @@ function showResult() {
         resultText = "💚 你是随机CP：<br>" + pick;
     }
 
-    document.getElementById("quiz").innerHTML = `
+    document.getElementById("app").innerHTML = `
         <h1>✨ 测试结果 ✨</h1>
         <p style="font-size:20px;">${resultText}</p>
-        <button onclick="location.reload()">再测一次</button>
+        <button onclick="showStart()">再测一次</button>
     `;
 }
 
-loadQuestion();
+// 初始显示封面
+showStart();
+
 </script>
 
 </body>
